@@ -28,6 +28,7 @@ html {
 
 body {
   margin: 0;
+  overflow-x: hidden;
   min-width: 320px;
   font-family: 'Manrope', 'Segoe UI', sans-serif;
   color: var(--text);
@@ -179,6 +180,7 @@ img {
   display: grid;
   align-items: center;
   isolation: isolate;
+  overflow: hidden;
 }
 
 .hero-bg,
@@ -194,7 +196,6 @@ img {
   object-fit: cover;
   object-position: center;
   filter: saturate(1.08) contrast(1.08) brightness(0.62);
-  transform: scale(1.04);
 }
 
 .hero-overlay {
@@ -998,6 +999,14 @@ h3 {
   background: rgba(13, 31, 42, 0.86);
 }
 
+.faq-list .faq-item:nth-child(2) { --delay: 90ms; }
+.faq-list .faq-item:nth-child(3) { --delay: 180ms; }
+.faq-list .faq-item:nth-child(4) { --delay: 270ms; }
+
+.faq-item[data-reveal] {
+  transform: translateY(14px);
+}
+
 .site-footer {
   display: grid;
   gap: 24px;
@@ -1765,6 +1774,12 @@ h3 {
 }
 
 @media (max-width: 760px) {
+  body {
+    background:
+      radial-gradient(circle at 50% -5%, rgba(16, 201, 214, 0.14), transparent 32%),
+      linear-gradient(180deg, #061019 0%, #081927 44%, #061019 100%);
+  }
+
   .topbar {
     width: min(calc(100% - 18px), var(--max-width));
     margin-top: 8px;
@@ -1795,8 +1810,7 @@ h3 {
     padding: 26px 18px 22px;
     border: 1px solid rgba(16, 240, 255, 0.16);
     border-radius: 24px;
-    background: linear-gradient(180deg, rgba(7, 18, 25, 0.62), rgba(7, 18, 25, 0.32));
-    backdrop-filter: blur(4px);
+    background: linear-gradient(180deg, rgba(7, 18, 25, 0.82), rgba(7, 18, 25, 0.58));
   }
 
   .hero h1 {
@@ -1811,36 +1825,7 @@ h3 {
   }
 
   .barber-pole {
-    top: 84px;
-    right: 10px;
-    width: 22px;
-    height: 96px;
-    padding: 4px;
-    border-width: 1px;
-    opacity: 0.94;
-    box-shadow:
-      0 0 18px rgba(16, 240, 255, 0.18),
-      0 8px 18px rgba(0, 0, 0, 0.2),
-      inset 0 0 6px rgba(255, 255, 255, 0.08);
-  }
-
-  .barber-pole::before,
-  .barber-pole::after {
-    width: 28px;
-    height: 8px;
-  }
-
-  .barber-pole::before {
-    top: -4px;
-  }
-
-  .barber-pole::after {
-    bottom: -4px;
-  }
-
-  .barber-pole span {
-    background-size: 100% 100%, 100% 44px;
-    animation-duration: 0.9s;
+    display: none;
   }
 
   .hero-badges {
@@ -1867,6 +1852,10 @@ h3 {
   .benefit-carousel .benefit-card,
   .feature-carousel .feature-card {
     width: 235px;
+  }
+
+  .glass-card {
+    backdrop-filter: none;
   }
 
   .split-section,
@@ -1994,20 +1983,6 @@ h3 {
 
   .hero-badges {
     grid-template-columns: 1fr;
-  }
-
-  .barber-pole {
-    top: 78px;
-    right: 8px;
-    width: 18px;
-    height: 82px;
-    padding: 3px;
-  }
-
-  .barber-pole::before,
-  .barber-pole::after {
-    width: 24px;
-    height: 7px;
   }
 
   .footer-brand {
