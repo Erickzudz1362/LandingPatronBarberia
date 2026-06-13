@@ -1827,13 +1827,10 @@ h3 {
   }
 
   [data-reveal],
-  .faq-item[data-reveal] {
+  [data-reveal].is-visible {
+    opacity: 1;
     transform: none;
-  }
-
-  [data-reveal].is-visible,
-  .faq-item[data-reveal].is-visible {
-    transform: none;
+    transition: none;
   }
 
   .hero-copy {
