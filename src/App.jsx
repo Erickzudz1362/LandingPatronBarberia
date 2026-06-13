@@ -290,7 +290,7 @@ export default function App() {
 
       <main>
         <section className="hero" id="inicio">
-          <img className="hero-bg" src={heroImage} alt="" aria-hidden="true" />
+          <img className="hero-bg" src={heroImage} alt="" aria-hidden="true" fetchPriority="high" />
           <div className="hero-overlay" />
           <BarberPole />
 
@@ -426,7 +426,7 @@ export default function App() {
           </article>
 
           <figure className="venue-panel" data-reveal>
-            <img src={shopActionImage} alt="Clientes en Barbería El Patrón" />
+            <img src={shopActionImage} alt="Clientes en Barbería El Patrón" loading="lazy" />
           </figure>
 
           <article className="steps-panel glass-card" data-reveal>
@@ -455,7 +455,7 @@ export default function App() {
           <Carousel className="gallery-carousel">
             {galleryImages.map((image) => (
               <figure key={image.title}>
-                <img src={image.src} alt={image.title} />
+                <img src={image.src} alt={image.title} loading="lazy" />
                 <figcaption>{image.title}</figcaption>
               </figure>
             ))}
@@ -463,7 +463,7 @@ export default function App() {
         </section>
 
         <section className="download-section" id="descargar" data-reveal>
-          <img className="download-bg" src={slideImage} alt="" aria-hidden="true" />
+          <img className="download-bg" src={slideImage} alt="" aria-hidden="true" loading="lazy" />
           <div className="download-copy">
             <p className="eyebrow">Descarga</p>
             <h2>Descarga o entra desde cualquier dispositivo. Así de fácil.</h2>
@@ -516,7 +516,7 @@ export default function App() {
             <Carousel className="promo-carousel">
               {appExclusives.map((promo) => (
                 <article className="promo-card" key={promo.title}>
-                  <img src={appIconImage} alt="" />
+                  <img src={appIconImage} alt="" loading="lazy" />
                   <div>
                     <span>{promo.label}</span>
                     <h3>{promo.title}</h3>

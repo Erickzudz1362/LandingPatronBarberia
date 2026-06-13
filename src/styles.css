@@ -1236,16 +1236,16 @@ h3 {
   }
 
   .phone-frame {
-    width: min(100%, 190px);
+    width: min(100%, 220px);
     transform: none;
     animation: none;
   }
 
   .phone-screen {
     min-height: auto;
-    max-height: 340px;
+    max-height: 370px;
     overflow: hidden;
-    padding: 34px 10px 14px;
+    padding: 34px 12px 14px;
   }
 
   .phone-frame .barber-card img {
@@ -1824,6 +1824,16 @@ h3 {
     background:
       radial-gradient(circle at 50% 26%, rgba(16, 240, 255, 0.18), transparent 36%),
       linear-gradient(180deg, rgba(5, 12, 17, 0.88) 0%, rgba(5, 12, 17, 0.96) 62%, #061019 100%);
+  }
+
+  [data-reveal],
+  .faq-item[data-reveal] {
+    transform: none;
+  }
+
+  [data-reveal].is-visible,
+  .faq-item[data-reveal].is-visible {
+    transform: none;
   }
 
   .hero-copy {
