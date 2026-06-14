@@ -1838,6 +1838,8 @@ h3 {
     border: 1px solid rgba(16, 240, 255, 0.16);
     border-radius: 24px;
     background: linear-gradient(180deg, rgba(7, 18, 25, 0.82), rgba(7, 18, 25, 0.58));
+    overflow: hidden;
+    transform: none;
   }
 
   .hero h1 {
@@ -1853,6 +1855,30 @@ h3 {
 
   .barber-pole {
     display: none;
+  }
+
+  .hero-actions {
+    gap: 12px;
+    isolation: isolate;
+  }
+
+  .cta,
+  .cta.primary,
+  .cta.outline {
+    min-height: 58px;
+    border-radius: 999px;
+    box-shadow: none;
+    filter: none;
+    transform: none;
+    transition: border-color 160ms ease, background-color 160ms ease;
+  }
+
+  .cta.primary {
+    background: #12b8c7;
+  }
+
+  .cta.outline {
+    background: #07151d;
   }
 
   .download-bg {
@@ -1873,16 +1899,29 @@ h3 {
 
   .hero-badges {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
 
   .hero-badges span {
     min-height: 50px;
     font-size: 0.76rem;
+    background: #07151d;
+    overflow: visible;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .hero-badges span::before {
+    display: none;
+  }
+
+  .hero-phone-wrap {
+    display: none;
   }
 
   .carousel {
     mask-image: none;
-    transform: translateZ(0);
+    transform: none;
     overflow: hidden;
   }
 
