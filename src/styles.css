@@ -1566,8 +1566,14 @@ h3 {
 
 .benefit-carousel .benefit-card,
 .feature-carousel .feature-card {
-  width: clamp(228px, 22vw, 296px);
+  width: clamp(218px, 21vw, 282px);
   flex: 0 0 auto;
+}
+
+.benefit-carousel .carousel-group,
+.feature-carousel .carousel-group {
+  gap: 34px;
+  padding-inline: 10px;
 }
 
 .feature-carousel .carousel-track {
