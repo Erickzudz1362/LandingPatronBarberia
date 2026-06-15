@@ -1813,17 +1813,17 @@ h3 {
 
   .hero {
     min-height: auto;
+    background:
+      linear-gradient(180deg, rgba(7, 19, 27, 0.98), rgba(5, 14, 20, 0.98)),
+      #07131b;
   }
 
   .hero-bg {
-    object-position: 58% center;
-    filter: none;
+    display: none;
   }
 
   .hero-overlay {
-    background:
-      radial-gradient(circle at 50% 26%, rgba(16, 240, 255, 0.18), transparent 36%),
-      linear-gradient(180deg, rgba(5, 12, 17, 0.88) 0%, rgba(5, 12, 17, 0.96) 62%, #061019 100%);
+    background: linear-gradient(180deg, rgba(8, 25, 34, 0.5), rgba(6, 16, 25, 0.96));
   }
 
   [data-reveal],
@@ -1835,9 +1835,9 @@ h3 {
 
   .hero-copy {
     padding: 26px 18px 22px;
-    border: 1px solid rgba(16, 240, 255, 0.16);
-    border-radius: 24px;
-    background: linear-gradient(180deg, rgba(7, 18, 25, 0.82), rgba(7, 18, 25, 0.58));
+    border: 0;
+    border-radius: 0;
+    background: transparent;
     overflow: hidden;
     transform: none;
   }
