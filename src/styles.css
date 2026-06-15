@@ -276,6 +276,10 @@ h3 {
   line-height: 1.7;
 }
 
+.hero-mobile-links {
+  display: none;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1857,9 +1861,34 @@ h3 {
     display: none;
   }
 
+  .hero-mobile-links {
+    display: grid;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .hero-mobile-links a,
+  .hero-mobile-links p {
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: 16px;
+    color: #edf6f8;
+    background: #07151d;
+    border: 1px solid rgba(16, 240, 255, 0.16);
+    line-height: 1.35;
+  }
+
+  .hero-mobile-links a {
+    font-weight: 800;
+  }
+
+  .hero-mobile-links p {
+    color: #b8c2c7;
+    font-size: 0.88rem;
+  }
+
   .hero-actions {
-    gap: 12px;
-    isolation: isolate;
+    display: none;
   }
 
   .cta,
@@ -1898,20 +1927,6 @@ h3 {
   }
 
   .hero-badges {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .hero-badges span {
-    min-height: 50px;
-    font-size: 0.76rem;
-    background: #07151d;
-    overflow: visible;
-    transform: none;
-    box-shadow: none;
-  }
-
-  .hero-badges span::before {
     display: none;
   }
 
@@ -2062,12 +2077,14 @@ h3 {
     line-height: 1.5;
   }
 
-  .hero-actions .cta {
-    border-radius: 999px;
+  .hero-mobile-links a,
+  .hero-mobile-links p {
+    padding: 13px 14px;
+    border-radius: 14px;
   }
 
-  .hero-badges {
-    grid-template-columns: 1fr;
+  .hero-actions .cta {
+    border-radius: 999px;
   }
 
   .footer-brand {

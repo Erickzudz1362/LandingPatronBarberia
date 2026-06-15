@@ -305,6 +305,18 @@ export default function App() {
                 Revisa servicios, elige barbero, consulta novedades y agenda tu cita desde cualquier dispositivo.
               </p>
 
+              <div className="hero-mobile-links">
+                <a href="#descargar">Descargar app</a>
+                <a
+                  href={webAppUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Entrar ahora
+                </a>
+                <p>Disponible en iPhone, Android, tablet y computadora.</p>
+              </div>
+
               <div className="hero-actions">
                 <Cta href="#descargar">Descargar app</Cta>
                 <Cta href={webAppUrl} variant="outline">Entrar ahora</Cta>
