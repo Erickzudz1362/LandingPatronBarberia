@@ -1,12 +1,12 @@
 import { Children, cloneElement, useEffect } from 'react';
-import brandLogo from '../assets/icono-web.png';
-import heroImage from '../assets/official/hero.jpg';
-import styleImage from '../assets/official/style.jpg';
-import premiumImage from '../assets/official/premium.jpg';
-import shopActionImage from '../assets/official/shop-action.jpg';
-import shopInteriorImage from '../assets/official/shop-interior.jpg';
-import slideImage from '../assets/official/slide-1.webp';
-import appIconImage from '../assets/official/app-icon.png';
+import brandLogo from '../assets/optimized/brand-logo.webp';
+import heroImage from '../assets/optimized/hero.webp';
+import styleImage from '../assets/optimized/style.webp';
+import premiumImage from '../assets/optimized/premium.webp';
+import shopActionImage from '../assets/optimized/shop-action.webp';
+import shopInteriorImage from '../assets/optimized/shop-interior.webp';
+import slideImage from '../assets/optimized/slide-1.webp';
+import appIconImage from '../assets/optimized/app-icon.webp';
 
 const webAppUrl = 'https://barberia-el-patron-opal.vercel.app/';
 const mapsUrl = 'https://maps.app.goo.gl/Mbdp1fUKbBgX7m336';
@@ -170,9 +170,9 @@ const barbers = [
 ];
 
 const galleryImages = [
-  { src: shopActionImage, title: 'Atención real en El Patrón' },
-  { src: shopInteriorImage, title: 'Ambiente de barbería premium' },
-  { src: premiumImage, title: 'Identidad El Patrón' },
+  { src: shopActionImage, title: 'Atención real en El Patrón', width: 1000, height: 562 },
+  { src: shopInteriorImage, title: 'Ambiente de barbería premium', width: 900, height: 964 },
+  { src: premiumImage, title: 'Identidad El Patrón', width: 1100, height: 550 },
 ];
 
 const faqItems = [
@@ -270,7 +270,7 @@ export default function App() {
     <div className="page-shell">
       <header className="topbar">
         <a className="brand" href="#inicio" aria-label="Barbería El Patrón">
-          <img src={brandLogo} alt="Barbería El Patrón" />
+          <img src={brandLogo} alt="Barbería El Patrón" width="192" height="192" decoding="async" fetchPriority="high" />
           <div>
             <span>Barbería</span>
             <strong>El Patrón</strong>
@@ -290,7 +290,7 @@ export default function App() {
 
       <main>
         <section className="hero" id="inicio">
-          <img className="hero-bg" src={heroImage} alt="" aria-hidden="true" fetchPriority="high" />
+          <img className="hero-bg" src={heroImage} alt="" aria-hidden="true" width="1600" height="900" decoding="async" fetchPriority="high" />
           <div className="hero-overlay" />
           <BarberPole />
 
@@ -345,7 +345,7 @@ export default function App() {
                     <p>¿Qué te hacemos hoy?</p>
                   </div>
                   <div className="promo-panel">
-                    <img src={styleImage} alt="Vista de la app de Barbería El Patrón" />
+                    <img src={styleImage} alt="Vista de la app de Barbería El Patrón" width="1000" height="562" decoding="async" />
                   </div>
                   <div className="section-row">
                     <strong>Barberos</strong>
@@ -354,7 +354,7 @@ export default function App() {
                   <div className="barber-cards">
                     {barbers.slice(0, 3).map((barber) => (
                       <div className="barber-card" key={barber.name}>
-                        <img src={brandLogo} alt="" />
+                        <img src={brandLogo} alt="" width="192" height="192" loading="lazy" decoding="async" />
                         <strong>{barber.name}</strong>
                         <small>{barber.role}</small>
                         <em>Disponible</em>
@@ -438,7 +438,7 @@ export default function App() {
           </article>
 
           <figure className="venue-panel" data-reveal>
-            <img src={shopActionImage} alt="Clientes en Barbería El Patrón" loading="lazy" />
+            <img src={shopActionImage} alt="Clientes en Barbería El Patrón" width="1000" height="562" loading="lazy" decoding="async" />
           </figure>
 
           <article className="steps-panel glass-card" data-reveal>
@@ -467,7 +467,14 @@ export default function App() {
           <Carousel className="gallery-carousel">
             {galleryImages.map((image) => (
               <figure key={image.title}>
-                <img src={image.src} alt={image.title} loading="lazy" />
+                <img
+                  src={image.src}
+                  alt={image.title}
+                  width={image.width}
+                  height={image.height}
+                  loading="lazy"
+                  decoding="async"
+                />
                 <figcaption>{image.title}</figcaption>
               </figure>
             ))}
@@ -475,7 +482,7 @@ export default function App() {
         </section>
 
         <section className="download-section" id="descargar" data-reveal>
-          <img className="download-bg" src={slideImage} alt="" aria-hidden="true" loading="lazy" />
+          <img className="download-bg" src={slideImage} alt="" aria-hidden="true" width="1300" height="730" loading="lazy" decoding="async" />
           <div className="download-copy">
             <p className="eyebrow">Descarga</p>
             <h2>Descarga o entra desde cualquier dispositivo. Así de fácil.</h2>
@@ -528,7 +535,7 @@ export default function App() {
             <Carousel className="promo-carousel">
               {appExclusives.map((promo) => (
                 <article className="promo-card" key={promo.title}>
-                  <img src={appIconImage} alt="" loading="lazy" />
+                  <img src={appIconImage} alt="" width="320" height="320" loading="lazy" decoding="async" />
                   <div>
                     <span>{promo.label}</span>
                     <h3>{promo.title}</h3>
@@ -549,7 +556,7 @@ export default function App() {
             <Carousel className="barber-carousel">
               {barbers.map((barber) => (
                 <article key={barber.name}>
-                  <img src={brandLogo} alt="" />
+                  <img src={brandLogo} alt="" width="192" height="192" loading="lazy" decoding="async" />
                   <h3>{barber.name}</h3>
                   <p>{barber.role}</p>
                 </article>
@@ -580,7 +587,7 @@ export default function App() {
       <footer className="site-footer">
         <div className="footer-top">
           <div className="footer-brand">
-            <img src={brandLogo} alt="Barbería El Patrón" />
+            <img src={brandLogo} alt="Barbería El Patrón" width="192" height="192" loading="lazy" decoding="async" />
             <div>
               <strong>Barbería El Patrón</strong>
               <p>Fine barber shop. Reserva más fácil, novedades visibles y una experiencia moderna para clientes que quieren verse bien.</p>

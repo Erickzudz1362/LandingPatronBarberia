@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
-
 :root {
   --ink: #071016;
   --ink-2: #0b1d27;
@@ -1601,6 +1599,18 @@ h3 {
   overflow: hidden;
 }
 
+.benefits-section,
+.features-section,
+.split-section,
+.gallery-section,
+.download-section,
+.promo-barber-section,
+.faq-section,
+.site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 760px;
+}
+
 .gallery-carousel figure {
   width: clamp(280px, 42vw, 560px);
   flex: 0 0 auto;
@@ -1952,12 +1962,18 @@ h3 {
   }
 
   .carousel-group {
-    gap: 20px;
+    gap: 24px;
   }
 
   .benefit-carousel .benefit-card,
   .feature-carousel .feature-card {
-    width: 235px;
+    width: min(248px, calc(100vw - 72px));
+  }
+
+  .benefit-carousel .carousel-group,
+  .feature-carousel .carousel-group {
+    gap: 28px;
+    padding-inline: 10px;
   }
 
   .glass-card {
@@ -1981,7 +1997,7 @@ h3 {
   .gallery-section .section-heading h2,
   .promo-panel-large h2,
   .faq-section h2 {
-    max-width: 9ch;
+    max-width: 12ch;
     font-size: clamp(1.72rem, 7.4vw, 2.3rem);
     line-height: 0.96;
   }
@@ -2066,8 +2082,8 @@ h3 {
   }
 
   .hero h1 {
-    max-width: 8.5ch;
-    font-size: clamp(2.2rem, 10.8vw, 3rem);
+    max-width: 9.4ch;
+    font-size: clamp(2.1rem, 9.9vw, 2.82rem);
     line-height: 0.92;
   }
 
@@ -2101,7 +2117,7 @@ h3 {
   .download-copy h2,
   .promo-panel-large h2,
   .faq-section h2 {
-    max-width: 8ch;
+    max-width: 12ch;
     font-size: clamp(1.52rem, 7.8vw, 2rem);
     line-height: 0.98;
   }
@@ -2118,5 +2134,19 @@ h3 {
   .install-buttons small,
   .install-guide p {
     font-size: 0.82rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
