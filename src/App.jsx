@@ -41,6 +41,12 @@ const heroBadges = [
   { icon: 'globe', label: 'Todos los dispositivos' },
 ];
 
+const trustItems = [
+  { icon: 'globe', title: 'Acceso inmediato', text: 'Entra desde cualquier dispositivo.' },
+  { icon: 'calendar', title: 'Reserva en 3 pasos', text: 'Servicio, barbero y horario.' },
+  { icon: 'shield', title: 'Experiencia clara', text: 'Todo organizado antes de confirmar.' },
+];
+
 const benefits = [
   {
     icon: 'clock',
@@ -85,6 +91,12 @@ const featureSlides = [
     title: 'Acceso inmediato',
     text: 'Entra desde celular, tablet o computadora con el enlace oficial.',
   },
+];
+
+const signaturePoints = [
+  { icon: 'scissors', title: 'Tu servicio', text: 'Corte, barba y opciones bien organizadas.' },
+  { icon: 'user', title: 'Tu barbero', text: 'Elige con quién quieres vivir la experiencia.' },
+  { icon: 'calendar', title: 'Tu momento', text: 'Selecciona el horario que mejor te funciona.' },
 ];
 
 const steps = [
@@ -260,7 +272,9 @@ function Cta({ href, children, variant = 'primary' }) {
 function Carousel({ children, className = '', label = 'Contenido destacado' }) {
   const items = Children.toArray(children);
   const carouselRef = useRef(null);
+  const pauseTimerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const updateActiveItem = (event) => {
     const group = event.currentTarget.querySelector('.carousel-group');
@@ -285,16 +299,55 @@ function Carousel({ children, className = '', label = 'Contenido destacado' }) {
     }
   };
 
+  const pauseTemporarily = () => {
+    window.clearTimeout(pauseTimerRef.current);
+    setIsPaused(true);
+    pauseTimerRef.current = window.setTimeout(() => setIsPaused(false), 8000);
+  };
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    const isMobile = window.matchMedia('(max-width: 760px)').matches;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!carousel || !isMobile || reduceMotion || isPaused || items.length < 2) return undefined;
+
+    let advanceTimer;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        window.clearTimeout(advanceTimer);
+        if (entry.isIntersecting) {
+          advanceTimer = window.setTimeout(() => {
+            goToItem((activeIndex + 1) % items.length);
+          }, 4200);
+        }
+      },
+      { threshold: 0.45 }
+    );
+
+    observer.observe(carousel);
+
+    return () => {
+      window.clearTimeout(advanceTimer);
+      observer.disconnect();
+    };
+  }, [activeIndex, isPaused, items.length]);
+
+  useEffect(() => () => window.clearTimeout(pauseTimerRef.current), []);
+
   return (
     <div className="carousel-shell">
       <div
-        className={`carousel ${className}`}
+        className={`carousel ${className}${isPaused ? ' is-paused' : ''}`}
         ref={carouselRef}
         role="region"
         aria-roledescription="carrusel"
         aria-label={label}
         tabIndex="0"
         onScroll={updateActiveItem}
+        onPointerDown={pauseTemporarily}
+        onWheel={pauseTemporarily}
+        onFocus={pauseTemporarily}
       >
         <div className="carousel-track">
           <div className="carousel-group">
@@ -306,7 +359,12 @@ function Carousel({ children, className = '', label = 'Contenido destacado' }) {
         </div>
       </div>
       <div className="carousel-mobile-cue">
-        <span>Desliza para explorar</span>
+        <div className="carousel-auto-status">
+          <span>{isPaused ? 'Pausado' : 'Automático'}</span>
+          <div className={`carousel-progress${isPaused ? ' is-paused' : ''}`} aria-hidden="true">
+            <span key={`${activeIndex}-${isPaused}`} />
+          </div>
+        </div>
         <div className="carousel-dots" aria-label={`Posición en ${label}`}>
           {items.map((_, index) => (
             <button
@@ -314,7 +372,10 @@ function Carousel({ children, className = '', label = 'Contenido destacado' }) {
               className={activeIndex === index ? 'is-active' : ''}
               aria-label={`Ver elemento ${index + 1} de ${items.length}`}
               aria-current={activeIndex === index ? 'true' : undefined}
-              onClick={() => goToItem(index)}
+              onClick={() => {
+                pauseTemporarily();
+                goToItem(index);
+              }}
               key={`dot-${index}`}
             />
           ))}
@@ -367,13 +428,16 @@ export default function App() {
               </p>
 
               <div className="hero-mobile-links">
-                <a href="#descargar">Descargar app</a>
+                <a className="hero-mobile-primary" href="#descargar">
+                  Descargar app <span>→</span>
+                </a>
                 <a
+                  className="hero-mobile-secondary"
                   href={webAppUrl}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Entrar ahora
+                  Entrar ahora <span>↗</span>
                 </a>
                 <p>Disponible en iPhone, Android, tablet y computadora.</p>
               </div>
@@ -439,6 +503,18 @@ export default function App() {
           </div>
         </section>
 
+        <section className="trust-strip" aria-label="Ventajas rápidas" data-reveal>
+          {trustItems.map((item) => (
+            <article key={item.title}>
+              <Icon name={item.icon} size={24} />
+              <div>
+                <strong>{item.title}</strong>
+                <p>{item.text}</p>
+              </div>
+            </article>
+          ))}
+        </section>
+
         <section className="benefits-section" id="beneficios">
           <div className="section-heading centered" data-reveal>
             <p className="eyebrow">Beneficios de la app</p>
@@ -470,6 +546,41 @@ export default function App() {
               </article>
             ))}
           </Carousel>
+        </section>
+
+        <section className="signature-section" data-reveal>
+          <figure className="signature-media">
+            <img
+              src={premiumImage}
+              alt="Identidad premium de Barbería El Patrón"
+              width="1100"
+              height="550"
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>Detalle, identidad y estilo El Patrón</figcaption>
+          </figure>
+          <div className="signature-copy">
+            <p className="eyebrow">Tu experiencia empieza antes de llegar</p>
+            <h2>Reserva con claridad. Llega listo para verte mejor.</h2>
+            <p className="signature-lead">
+              Diseñamos cada paso para que elegir tu servicio, tu barbero y tu horario se sienta rápido, claro y premium.
+            </p>
+            <div className="signature-points">
+              {signaturePoints.map((item) => (
+                <article key={item.title}>
+                  <Icon name={item.icon} size={22} />
+                  <div>
+                    <strong>{item.title}</strong>
+                    <p>{item.text}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <a className="signature-cta" href={webAppUrl} target="_blank" rel="noreferrer">
+              Reservar ahora <span>→</span>
+            </a>
+          </div>
         </section>
 
         <section className="split-section" id="como-funciona">
