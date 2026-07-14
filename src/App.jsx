@@ -359,8 +359,7 @@ function Carousel({ children, className = '', label = 'Contenido destacado' }) {
         </div>
       </div>
       <div className="carousel-mobile-cue">
-        <div className="carousel-auto-status">
-          <span>{isPaused ? 'Pausado' : 'Automático'}</span>
+        <div className="carousel-auto-status" aria-hidden="true">
           <div className={`carousel-progress${isPaused ? ' is-paused' : ''}`} aria-hidden="true">
             <span key={`${activeIndex}-${isPaused}`} />
           </div>

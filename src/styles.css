@@ -2271,10 +2271,7 @@ h3 {
   }
 
   .carousel-auto-status {
-    display: grid;
-    grid-template-columns: auto 58px;
-    align-items: center;
-    gap: 9px;
+    width: 58px;
   }
 
   .carousel-progress {
