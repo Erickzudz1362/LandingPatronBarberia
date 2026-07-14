@@ -2260,7 +2260,7 @@ h3 {
   .carousel-mobile-cue {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 12px;
     min-height: 36px;
     padding: 8px 4px 0;
@@ -2268,32 +2268,6 @@ h3 {
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.04em;
-  }
-
-  .carousel-auto-status {
-    width: 58px;
-  }
-
-  .carousel-progress {
-    height: 3px;
-    overflow: hidden;
-    border-radius: 999px;
-    background: rgba(184, 194, 199, 0.2);
-  }
-
-  .carousel-progress span {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    background: linear-gradient(90deg, var(--teal-strong), var(--gold-strong));
-    transform-origin: left;
-    animation: carouselProgress 4.2s linear forwards;
-  }
-
-  .carousel-progress.is-paused span {
-    animation: none;
-    transform: scaleX(0.35);
   }
 
   .carousel-dots {
@@ -2623,14 +2597,5 @@ h3 {
   }
   to {
     background-position: 0 0, 0 56px;
-  }
-}
-
-@keyframes carouselProgress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
   }
 }

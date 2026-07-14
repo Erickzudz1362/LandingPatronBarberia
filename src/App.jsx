@@ -359,11 +359,6 @@ function Carousel({ children, className = '', label = 'Contenido destacado' }) {
         </div>
       </div>
       <div className="carousel-mobile-cue">
-        <div className="carousel-auto-status" aria-hidden="true">
-          <div className={`carousel-progress${isPaused ? ' is-paused' : ''}`} aria-hidden="true">
-            <span key={`${activeIndex}-${isPaused}`} />
-          </div>
-        </div>
         <div className="carousel-dots" aria-label={`Posición en ${label}`}>
           {items.map((_, index) => (
             <button
