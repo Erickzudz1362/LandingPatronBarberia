@@ -1094,13 +1094,18 @@ h3 {
 }
 
 [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-ready [data-reveal] {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(26px);
   transition: opacity 720ms ease, transform 720ms ease;
   transition-delay: var(--delay, 0ms);
 }
 
-[data-reveal].is-visible {
+.reveal-ready [data-reveal].is-visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -1436,6 +1441,7 @@ h3 {
 
 .hero-copy {
   position: relative;
+  z-index: 2;
 }
 
 .hero h1 {
@@ -1542,6 +1548,15 @@ h3 {
   overflow: hidden;
   mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
   transform: translateZ(0);
+}
+
+.carousel-shell {
+  width: 100%;
+  min-width: 0;
+}
+
+.carousel-mobile-cue {
+  display: none;
 }
 
 .carousel-track {
@@ -1813,6 +1828,11 @@ h3 {
 }
 
 @media (max-width: 760px) {
+  .page-shell {
+    overflow-y: visible;
+    overflow-x: clip;
+  }
+
   body {
     background:
       radial-gradient(circle at 50% -5%, rgba(16, 201, 214, 0.14), transparent 32%),
@@ -1824,6 +1844,9 @@ h3 {
     margin-top: 8px;
     padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
     border-radius: 0 0 18px 18px;
+    background: #07151d;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   .nav-download {
@@ -1846,11 +1869,18 @@ h3 {
     background: linear-gradient(180deg, rgba(8, 25, 34, 0.5), rgba(6, 16, 25, 0.96));
   }
 
-  [data-reveal],
-  [data-reveal].is-visible {
+  .reveal-ready [data-reveal] {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 460ms ease-out,
+      transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: min(var(--delay, 0ms), 120ms);
+  }
+
+  .reveal-ready [data-reveal].is-visible {
     opacity: 1;
     transform: none;
-    transition: none;
   }
 
   .hero-copy {
@@ -1874,7 +1904,42 @@ h3 {
   }
 
   .barber-pole {
-    display: none;
+    display: block;
+    top: 94px;
+    right: 12px;
+    z-index: 1;
+    width: 24px;
+    height: 104px;
+    padding: 4px;
+    border-color: rgba(255, 207, 106, 0.72);
+    transform: none;
+    isolation: isolate;
+    box-shadow:
+      0 0 18px rgba(16, 240, 255, 0.2),
+      0 10px 20px rgba(0, 0, 0, 0.3),
+      inset 0 0 7px rgba(255, 255, 255, 0.1);
+  }
+
+  .barber-pole::before,
+  .barber-pole::after {
+    width: 32px;
+    height: 8px;
+  }
+
+  .barber-pole::before {
+    top: -4px;
+  }
+
+  .barber-pole::after {
+    bottom: -4px;
+  }
+
+  .barber-pole span {
+    background:
+      linear-gradient(90deg, rgba(18, 24, 32, 0.34), transparent 24%, transparent 76%, rgba(18, 24, 32, 0.38)),
+      repeating-linear-gradient(155deg, #0fc6d5 0 8px, #f2f6f8 8px 16px, #c92e34 16px 24px, #f2f6f8 24px 32px);
+    background-size: 100% 100%, 100% 56px;
+    animation: poleSpinMobile 1.45s linear infinite;
   }
 
   .hero-mobile-links {
@@ -1953,16 +2018,75 @@ h3 {
   .carousel {
     mask-image: none;
     transform: none;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-padding-inline: 4px;
+    border-radius: 18px;
+    outline: none;
+  }
+
+  .carousel:focus-visible {
+    box-shadow: 0 0 0 2px var(--teal-strong);
+  }
+
+  .carousel::-webkit-scrollbar {
+    display: none;
   }
 
   .carousel-track {
-    animation-duration: 46s;
+    animation: none;
+    transform: none;
     will-change: auto;
+  }
+
+  .carousel-group[aria-hidden='true'] {
+    display: none;
   }
 
   .carousel-group {
     gap: 24px;
+  }
+
+  .carousel-group > * {
+    scroll-snap-align: start;
+  }
+
+  .carousel-mobile-cue {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 36px;
+    padding: 8px 4px 0;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .carousel-dots {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .carousel-dots button {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(184, 194, 199, 0.45);
+    transition: width 180ms ease, background-color 180ms ease;
+  }
+
+  .carousel-dots button.is-active {
+    width: 22px;
+    background: linear-gradient(90deg, var(--teal-strong), var(--gold-strong));
   }
 
   .benefit-carousel .benefit-card,
@@ -1978,6 +2102,53 @@ h3 {
 
   .glass-card {
     backdrop-filter: none;
+  }
+
+  .benefits-section,
+  .features-section,
+  .split-section,
+  .gallery-section,
+  .download-section,
+  .promo-barber-section,
+  .faq-section,
+  .site-footer {
+    content-visibility: visible;
+    contain-intrinsic-size: auto;
+  }
+
+  .brand {
+    gap: 9px;
+  }
+
+  .brand img {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    box-shadow: 0 0 0 4px rgba(16, 201, 214, 0.05);
+  }
+
+  .faq-list {
+    isolation: isolate;
+  }
+
+  .faq-item,
+  .faq-item[open] {
+    background: #07151d;
+  }
+
+  .faq-item summary {
+    min-height: 58px;
+    padding: 15px 16px;
+    touch-action: manipulation;
+  }
+
+  .faq-item summary .icon {
+    margin-top: 1px;
+    transition: transform 220ms ease;
+  }
+
+  .faq-item[open] summary .icon {
+    transform: rotate(45deg);
   }
 
   .split-section,
@@ -2073,6 +2244,7 @@ h3 {
 
   .footer-main-cta {
     width: 100%;
+    min-height: 56px;
   }
 }
 
@@ -2148,5 +2320,14 @@ h3 {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes poleSpinMobile {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: 0 0, 0 56px;
   }
 }

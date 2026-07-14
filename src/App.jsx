@@ -1,4 +1,4 @@
-import { Children, cloneElement, useEffect } from 'react';
+import { Children, cloneElement, useEffect, useRef, useState } from 'react';
 import brandLogo from '../assets/optimized/brand-logo.webp';
 import heroImage from '../assets/optimized/hero.webp';
 import styleImage from '../assets/optimized/style.webp';
@@ -214,6 +214,14 @@ function BarberPole() {
 function useRevealOnScroll() {
   useEffect(() => {
     const elements = document.querySelectorAll('[data-reveal]');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      elements.forEach((element) => element.classList.add('is-visible'));
+      return undefined;
+    }
+
+    document.documentElement.classList.add('reveal-ready');
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -223,12 +231,15 @@ function useRevealOnScroll() {
           }
         });
       },
-      { threshold: 0.16 }
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
     );
 
     elements.forEach((element) => observer.observe(element));
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove('reveal-ready');
+    };
   }, []);
 }
 
@@ -246,17 +257,67 @@ function Cta({ href, children, variant = 'primary' }) {
   );
 }
 
-function Carousel({ children, className = '' }) {
+function Carousel({ children, className = '', label = 'Contenido destacado' }) {
   const items = Children.toArray(children);
+  const carouselRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const updateActiveItem = (event) => {
+    const group = event.currentTarget.querySelector('.carousel-group');
+    const slides = group ? Array.from(group.children) : [];
+
+    if (!slides.length) return;
+
+    const current = slides.reduce((closest, slide, index) => {
+      const distance = Math.abs(slide.offsetLeft - event.currentTarget.scrollLeft);
+      return distance < closest.distance ? { index, distance } : closest;
+    }, { index: 0, distance: Number.POSITIVE_INFINITY });
+
+    setActiveIndex(current.index);
+  };
+
+  const goToItem = (index) => {
+    const group = carouselRef.current?.querySelector('.carousel-group');
+    const target = group?.children[index];
+
+    if (target) {
+      carouselRef.current.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <div className={`carousel ${className}`}>
-      <div className="carousel-track">
-        <div className="carousel-group">
-          {items.map((child, index) => cloneElement(child, { key: `first-${index}` }))}
+    <div className="carousel-shell">
+      <div
+        className={`carousel ${className}`}
+        ref={carouselRef}
+        role="region"
+        aria-roledescription="carrusel"
+        aria-label={label}
+        tabIndex="0"
+        onScroll={updateActiveItem}
+      >
+        <div className="carousel-track">
+          <div className="carousel-group">
+            {items.map((child, index) => cloneElement(child, { key: `first-${index}` }))}
+          </div>
+          <div className="carousel-group" aria-hidden="true">
+            {items.map((child, index) => cloneElement(child, { key: `second-${index}` }))}
+          </div>
         </div>
-        <div className="carousel-group" aria-hidden="true">
-          {items.map((child, index) => cloneElement(child, { key: `second-${index}` }))}
+      </div>
+      <div className="carousel-mobile-cue">
+        <span>Desliza para explorar</span>
+        <div className="carousel-dots" aria-label={`Posición en ${label}`}>
+          {items.map((_, index) => (
+            <button
+              type="button"
+              className={activeIndex === index ? 'is-active' : ''}
+              aria-label={`Ver elemento ${index + 1} de ${items.length}`}
+              aria-current={activeIndex === index ? 'true' : undefined}
+              onClick={() => goToItem(index)}
+              key={`dot-${index}`}
+            />
+          ))}
         </div>
       </div>
     </div>
@@ -384,7 +445,7 @@ export default function App() {
             <h2>Más rápido, más claro, más El Patrón.</h2>
           </div>
 
-          <Carousel className="benefit-carousel">
+          <Carousel className="benefit-carousel" label="Beneficios de la app">
             {benefits.map((item) => (
               <article className="glass-card benefit-card" key={item.title}>
                 <Icon name={item.icon} size={34} />
@@ -400,7 +461,7 @@ export default function App() {
             <p className="eyebrow">Todo en una sola experiencia</p>
           </div>
 
-          <Carousel className="feature-carousel">
+          <Carousel className="feature-carousel" label="Funciones de la app">
             {featureSlides.map((feature) => (
               <article className="feature-card" key={feature.title}>
                 <Icon name={feature.icon} size={34} />
@@ -464,7 +525,7 @@ export default function App() {
             <p className="eyebrow">Así se vive El Patrón</p>
             <h2>Un espacio real para corte, barba y detalle.</h2>
           </div>
-          <Carousel className="gallery-carousel">
+          <Carousel className="gallery-carousel" label="Galería de Barbería El Patrón">
             {galleryImages.map((image) => (
               <figure key={image.title}>
                 <img
@@ -532,7 +593,7 @@ export default function App() {
               </div>
               <a href={webAppUrl} target="_blank" rel="noreferrer">Entrar a la app</a>
             </div>
-            <Carousel className="promo-carousel">
+            <Carousel className="promo-carousel" label="Promociones y novedades">
               {appExclusives.map((promo) => (
                 <article className="promo-card" key={promo.title}>
                   <img src={appIconImage} alt="" width="320" height="320" loading="lazy" decoding="async" />
@@ -553,7 +614,7 @@ export default function App() {
               </div>
               <span>Ver todos</span>
             </div>
-            <Carousel className="barber-carousel">
+            <Carousel className="barber-carousel" label="Barberos disponibles">
               {barbers.map((barber) => (
                 <article key={barber.name}>
                   <img src={brandLogo} alt="" width="192" height="192" loading="lazy" decoding="async" />
